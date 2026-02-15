@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}NGO Dashboard - ConnectGood{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">ConnectGood</div>
+            <p class="user-greeting">Hi, {{ ngo.organization_name or current_user.name }}!</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('ngo_dashboard') }}" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('ngo_profile') }}" class="nav-item">
+                <span class="nav-icon">🏢</span>
+                <span>Organization Profile</span>
+            </a>
+            <a href="{{ url_for('ngo_dashboard') }}" class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span>Matched Volunteers</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="{{ url_for('logout') }}" class="nav-item logout">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-header">
+            <h1>Welcome, {{ ngo.organization_name or current_user.name }}! 👋</h1>
+            <p class="subtitle">Manage your volunteer needs and connections</p>
+        </div>
+
+        {% if not ngo.organization_name %}
+        <!-- Profile Incomplete Alert -->
+        <div class="alert alert-info">
+            <h3>👋 Complete your organization profile!</h3>
+            <p>Tell us about your NGO and what help you need to find the right volunteers.</p>
+            <a href="{{ url_for('ngo_profile') }}" class="btn btn-primary">Complete Profile</a>
+        </div>
+        {% else %}
+
+        <!-- Skill Gap Analysis -->
+        {% if skill_gap %}
+        <div class="section">
+            <h2 class="section-title">📊 Skill Gap Analysis</h2>
+            <p class="section-subtitle">See which skills have good volunteer coverage vs high demand</p>
+            
+            <div class="skill-gap-container">
+                {% for gap in skill_gap %}
+                <div class="skill-bar-item">
+                    <div class="skill-bar-header">
+                        <span class="skill-name">{{ gap.skill }}</span>
+                        <span class="skill-count">{{ gap.available }} volunteers available</span>
+                    </div>
+                    <div class="skill-bar-bg">
+                        <div class="skill-bar-fill skill-bar-{{ gap.status }}" style="width: {{ gap.coverage }}%">
+                            {% if gap.status == 'critical' %}
+                                High Demand!
+                            {% elif gap.status == 'low' %}
+                                Limited
+                            {% else %}
+                                Good Coverage
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Matched Volunteers -->
+        <div class="section">
+            <h2 class="section-title">Matched Volunteers 🎯</h2>
+            
+            {% if matches %}
+            <div class="matches-grid">
+                {% for match in matches[:6] %}
+                <div class="match-card">
+                    <div class="match-score">{{ match.score }}% Match</div>
+                    <h3 class="match-title">{{ match.volunteer.user.name }}</h3>
+                    <p class="match-org">
+                        Skills: {{ match.matched_skills }}<br>
+                        Availability: {{ match.volunteer.availability or 'Flexible' }}
+                    </p>
+                    <p class="match-description">
+                        {{ match.volunteer.interests[:120] if match.volunteer.interests else 'Passionate volunteer ready to help!' }}...
+                    </p>
+                    <div class="match-stats">
+                        <span class="badge badge-success">{{ (match.volunteer.hours_per_week * 52 * 50) if match.volunteer.hours_per_week else 0 }} credits</span>
+                        <span class="badge badge-info">{{ match.volunteer.hours_per_week or 0 }} hrs/week</span>
+                    </div>
+                    <div class="match-actions">
+                        <button class="btn btn-primary btn-sm">Contact</button>
+                        <button class="btn btn-secondary btn-sm">View Profile</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <p>No matches yet. Complete your profile to find volunteers!</p>
+                <a href="{{ url_for('ngo_profile') }}" class="btn btn-primary">Update Profile</a>
+            </div>
+            {% endif %}
+        </div>
+
+        {% endif %}
+    </main>
+</div>
+{% endblock %}

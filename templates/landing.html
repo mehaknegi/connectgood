@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+
+{% block title %}ConnectGood - Connect Volunteers with Causes{% endblock %}
+
+{% block content %}
+<div class="landing-page">
+    <!-- Navigation -->
+    <nav class="landing-nav">
+        <div class="nav-container">
+            <div class="logo">ConnectGood</div>
+            <div class="nav-links">
+                <a href="{{ url_for('login') }}" class="nav-link">Login</a>
+                <a href="{{ url_for('signup') }}" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Connect Your Skills<br>
+                    <span class="gradient-text">With Causes That Matter</span>
+                </h1>
+                <p class="hero-subtitle">
+                    AI-powered platform matching volunteers with NGOs based on skills, 
+                    interests, and availability. Make real impact. Earn recognition.
+                </p>
+                <div class="hero-buttons">
+                    <a href="{{ url_for('signup') }}" class="btn btn-hero-primary">Join as Volunteer</a>
+                    <a href="{{ url_for('signup') }}" class="btn btn-hero-secondary">Join as NGO</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">1,200+</div>
+                        <div class="stat-label">Active Volunteers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">350+</div>
+                        <div class="stat-label">NGO Partners</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">50K+</div>
+                        <div class="stat-label">Hours Contributed</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="hero-visual">
+                    <div class="floating-card card-1">
+                        <div class="card-icon">🤝</div>
+                        <div class="card-text">Perfect Match!</div>
+                    </div>
+                    <div class="floating-card card-2">
+                        <div class="card-icon">🎯</div>
+                        <div class="card-text">95% Match</div>
+                    </div>
+                    <div class="floating-card card-3">
+                        <div class="card-icon">⭐</div>
+                        <div class="card-text">2,450 Credits</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-container">
+            <h2 class="section-title">Why ConnectGood?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Smart Matching</h3>
+                    <p>AI-powered algorithm matches your skills with NGOs that need them most</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💫</div>
+                    <h3>Impact Preview</h3>
+                    <p>See your projected impact before committing - know exactly what difference you'll make</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Earn Credits</h3>
+                    <p>Get recognized! Earn credits for every hour, climb leaderboards, win certificates</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Skill Gap Analysis</h3>
+                    <p>NGOs see which skills are in demand vs supply - make strategic decisions</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📜</div>
+                    <h3>Digital Certificates</h3>
+                    <p>Get official certificates for your volunteer work - share on LinkedIn!</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Safe & Verified</h3>
+                    <p>All NGOs verified. Your data protected. Volunteer with confidence.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="hiw-container">
+            <h2 class="section-title">How It Works</h2>
+            <div class="hiw-grid">
+                <div class="hiw-step">
+                    <div class="step-number">1</div>
+                    <h3>Sign Up</h3>
+                    <p>Create your account as a volunteer or NGO in under 2 minutes</p>
+                </div>
+                <div class="hiw-arrow">→</div>
+                <div class="hiw-step">
+                    <div class="step-number">2</div>
+                    <h3>Complete Profile</h3>
+                    <p>Tell us your skills, interests, and availability</p>
+                </div>
+                <div class="hiw-arrow">→</div>
+                <div class="hiw-step">
+                    <div class="step-number">3</div>
+                    <h3>Get Matched</h3>
+                    <p>AI finds perfect matches based on skills and needs</p>
+                </div>
+                <div class="hiw-arrow">→</div>
+                <div class="hiw-step">
+                    <div class="step-number">4</div>
+                    <h3>Make Impact</h3>
+                    <p>Start volunteering and track your impact in real-time</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2>Ready to Make a Difference?</h2>
+            <p>Join thousands of volunteers creating real impact in their communities</p>
+            <a href="{{ url_for('signup') }}" class="btn btn-cta">Get Started Today</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">ConnectGood</div>
+                    <p>Connecting volunteers with causes that matter</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Platform</h4>
+                        <a href="{{ url_for('signup') }}">Sign Up</a>
+                        <a href="{{ url_for('login') }}">Login</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Company</h4>
+                        <a href="#">About Us</a>
+                        <a href="#">Contact</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 ConnectGood. Built for social good.</p>
+            </div>
+        </div>
+    </footer>
+</div>
+{% endblock %}

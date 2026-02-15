@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}Volunteer Dashboard - ConnectGood{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">ConnectGood</div>
+            <p class="user-greeting">Hi, {{ current_user.name }}!</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('volunteer_dashboard') }}" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('volunteer_profile') }}" class="nav-item">
+                <span class="nav-icon">👤</span>
+                <span>My Profile</span>
+            </a>
+            <a href="{{ url_for('volunteer_dashboard') }}" class="nav-item">
+                <span class="nav-icon">🎯</span>
+                <span>My Matches</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📜</span>
+                <span>Certificates</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="{{ url_for('logout') }}" class="nav-item logout">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-header">
+            <h1>Welcome Back, {{ current_user.name }}! 👋</h1>
+            <p class="subtitle">Here's your volunteer impact dashboard</p>
+        </div>
+
+        <!-- Impact Stats -->
+        <div class="stats-grid">
+            <div class="stat-card stat-primary">
+                <div class="stat-icon">⏰</div>
+                <div class="stat-info">
+                    <div class="stat-value">{{ stats.total_hours }}</div>
+                    <div class="stat-label">Total Hours/Year</div>
+                </div>
+            </div>
+            <div class="stat-card stat-success">
+                <div class="stat-icon">👥</div>
+                <div class="stat-info">
+                    <div class="stat-value">{{ stats.people_helped }}</div>
+                    <div class="stat-label">People Helped</div>
+                </div>
+            </div>
+            <div class="stat-card stat-warning">
+                <div class="stat-icon">📁</div>
+                <div class="stat-info">
+                    <div class="stat-value">{{ stats.projects }}</div>
+                    <div class="stat-label">Projects Completed</div>
+                </div>
+            </div>
+            <div class="stat-card stat-gold">
+                <div class="stat-icon">⭐</div>
+                <div class="stat-info">
+                    <div class="stat-value">{{ stats.credits }}</div>
+                    <div class="stat-label">Credits Earned</div>
+                </div>
+            </div>
+        </div>
+
+        {% if not volunteer.skills %}
+        <!-- Profile Incomplete Alert -->
+        <div class="alert alert-info">
+            <h3>👋 Complete your profile to get matched!</h3>
+            <p>Tell us about your skills and interests to find the perfect NGO matches.</p>
+            <a href="{{ url_for('volunteer_profile') }}" class="btn btn-primary">Complete Profile</a>
+        </div>
+        {% else %}
+        <!-- Matches Section -->
+        <div class="section">
+            <h2 class="section-title">Your Top Matches 🎯</h2>
+            
+            {% if matches %}
+            <div class="matches-grid">
+                {% for match in matches[:3] %}
+                <div class="match-card">
+                    <div class="match-score">{{ match.score }}% Match</div>
+                    <h3 class="match-title">{{ match.ngo.organization_name }}</h3>
+                    <p class="match-org">{{ match.ngo.cause_area.capitalize() }} • {{ match.ngo.location }}</p>
+                    <p class="match-description">{{ match.ngo.description[:150] }}...</p>
+                    <div class="match-skills">
+                        <strong>Matched Skills:</strong> {{ match.matched_skills }}
+                    </div>
+                    <div class="match-actions">
+                        <button class="btn btn-primary btn-sm">Connect</button>
+                        <button class="btn btn-secondary btn-sm">Learn More</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-state">
+                <p>No matches yet. Update your profile to find opportunities!</p>
+                <a href="{{ url_for('volunteer_profile') }}" class="btn btn-primary">Update Profile</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="section">
+            <h2 class="section-title">Top Volunteers This Month 🏆</h2>
+            <div class="leaderboard">
+                {% for vol in top_volunteers %}
+                <div class="leaderboard-item {% if vol.id == volunteer.id %}current-user{% endif %}">
+                    <div class="rank rank-{{ loop.index }}">{{ loop.index }}</div>
+                    <div class="volunteer-info">
+                        <div class="volunteer-name">
+                            {% if vol.id == volunteer.id %}
+                                You!
+                            {% else %}
+                                {{ vol.user.name }}
+                            {% endif %}
+                        </div>
+                        <div class="volunteer-stats">
+                            {{ vol.skills.split(',')[0] if vol.skills else 'Various Skills' }} • 
+                            {{ vol.hours_per_week * 4 }} hours this month
+                        </div>
+                    </div>
+                    <div class="volunteer-credits">{{ (vol.hours_per_week * 52 * 50) if vol.hours_per_week else 0 }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}

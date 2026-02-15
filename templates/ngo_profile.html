@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Organization Profile - ConnectGood{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">ConnectGood</div>
+            <p class="user-greeting">Hi, {{ current_user.name }}!</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('ngo_dashboard') }}" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('ngo_profile') }}" class="nav-item active">
+                <span class="nav-icon">🏢</span>
+                <span>Organization Profile</span>
+            </a>
+            <a href="{{ url_for('ngo_dashboard') }}" class="nav-item">
+                <span class="nav-icon">👥</span>
+                <span>Matched Volunteers</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="{{ url_for('logout') }}" class="nav-item logout">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-header">
+            <h1>Organization Profile</h1>
+            <p class="subtitle">Tell us about your NGO and what help you need</p>
+        </div>
+
+        <div class="form-card">
+            <form method="POST" class="profile-form">
+                {{ form.hidden_tag() }}
+                
+                <div class="form-group">
+                    {{ form.organization_name.label }}
+                    {{ form.organization_name(class="form-control", placeholder="Your NGO's name") }}
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form.location.label }}
+                        {{ form.location(class="form-control", placeholder="City, State/Country") }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.cause_area.label }}
+                        {{ form.cause_area(class="form-control") }}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form.description.label }}
+                    {{ form.description(class="form-control", rows="4", placeholder="Describe what help you need and what your organization does...") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.skills_required.label }}
+                    <div class="skills-select">
+                        {% for skill in form.skills_required %}
+                            <label class="skill-checkbox">
+                                {{ skill }}
+                                <span>{{ skill.label.text }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form.commitment_type.label }}
+                    {{ form.commitment_type(class="form-control") }}
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save & Find Volunteers</button>
+                    <a href="{{ url_for('ngo_dashboard') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %}

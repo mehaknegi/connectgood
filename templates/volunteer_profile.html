@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile - ConnectGood{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">ConnectGood</div>
+            <p class="user-greeting">Hi, {{ current_user.name }}!</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('volunteer_dashboard') }}" class="nav-item">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('volunteer_profile') }}" class="nav-item active">
+                <span class="nav-icon">👤</span>
+                <span>My Profile</span>
+            </a>
+            <a href="{{ url_for('volunteer_dashboard') }}" class="nav-item">
+                <span class="nav-icon">🎯</span>
+                <span>My Matches</span>
+            </a>
+            <a href="#" class="nav-item">
+                <span class="nav-icon">📜</span>
+                <span>Certificates</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="{{ url_for('logout') }}" class="nav-item logout">
+                <span class="nav-icon">🚪</span>
+                <span>Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-header">
+            <h1>My Volunteer Profile</h1>
+            <p class="subtitle">Tell us about yourself to find perfect matches</p>
+        </div>
+
+        <div class="form-card">
+            <form method="POST" class="profile-form">
+                {{ form.hidden_tag() }}
+                
+                <div class="form-group">
+                    {{ form.location.label }}
+                    {{ form.location(class="form-control", placeholder="City, State/Country") }}
+                </div>
+
+                <div class="form-group">
+                    {{ form.skills.label }}
+                    <div class="skills-select">
+                        {% for skill in form.skills %}
+                            <label class="skill-checkbox">
+                                {{ skill }}
+                                <span>{{ skill.label.text }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {{ form.interests.label }}
+                    {{ form.interests(class="form-control", rows="4", placeholder="e.g., education for underprivileged children, environmental conservation...") }}
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form.availability.label }}
+                        {{ form.availability(class="form-control") }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.hours_per_week.label }}
+                        {{ form.hours_per_week(class="form-control", placeholder="e.g., 5") }}
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Save & Find Matches</button>
+                    <a href="{{ url_for('volunteer_dashboard') }}" class="btn btn-secondary">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %}
